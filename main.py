@@ -32,7 +32,8 @@ def converter(message: telebot.types.Message):
         values_ = message.text.split(' ')
 
         if len(values_) != 3:
-            raise ConvertionExceptions("Недостаточно или много параметров")
+            raise ConvertionExceptions("Недостаточно или много параметров.\n\
+Для помощи наберите /help")
 
         quote, base, amount = values_
         total_base = CurrencyConverter.get_price(quote, base, amount)
@@ -43,11 +44,6 @@ def converter(message: telebot.types.Message):
     else:
         text = f"Цена: {amount} {quote} в {base} - {total_base}"
         bot.send_message(message.chat.id, text)
-
-
-@bot.message_handler(content_types=['text', 'document', 'audio', 'voice'])
-def handle_start_help(message: telebot.types.Message):
-    bot.reply_to(message, "Для начала работы наберите /start или /help ")
 
 
 bot.polling(none_stop=True)
